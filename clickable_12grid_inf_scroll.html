@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+        html, body {
+            margin:0px;
+            padding:0px;
+            width:100%;
+            height:100%;
+            background:#000;
+            font-size: 0;
+        }
+
+        div#elementFactory {
+            display:none;
+        }
+
+        div#content {
+            text-align: center; 
+            padding-top:5px;
+        }
+        
+        div.tile {
+            display:inline-block;
+        }
+
+        div.centerWrapper {
+            width:100%;
+            height:100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        div.clicker {
+            width: 90%;
+            height: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #111;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        div.clicker.clicked {
+            transition: background-color 0.3s;
+        }
+
+
+    </style>
+    
+    <title>POC</title>
+</head>
+<body>
+    <div id="elementFactory">
+        <div class="tile">
+            <div class="centerWrapper">
+                <div class="clicker">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="content">
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script>
+        let GRID_SIZE = 12
+
+        let currentRow = 0
+
+        function adjustTileSize(){
+            let tileSize = Math.floor($(window).width()*0.99/GRID_SIZE)
+
+            $(".tile").css("height", tileSize+"px")
+            $(".tile").css("width", tileSize+"px")
+        }
+
+        function addRowsOfTiles(rowCount) {
+            for (rowIndex = 0; rowIndex<rowCount; rowIndex++){
+                for (colIndex=0; colIndex<GRID_SIZE; colIndex++) {
+                    let coord =(currentRow+rowIndex)+"_"+colIndex
+                    let newElement = $("#elementFactory .tile").clone(true)
+
+                    newElement.attr("id", "tile_"+coord)
+
+                    newElement.appendTo("#content")
+                }
+            }
+
+            currentRow+=rowCount
+        }
+
+        $( window ).resize(function() {
+            adjustTileSize()
+        });
+
+        $(window).scroll(function() {
+            if($(window).scrollTop() + $(window).height() > $(document).height()*0.9) {
+                addRowsOfTiles(12)
+            }
+        });
+
+        $(".clicker").click(function(e){
+            je = $(e.target)
+            if (je.hasClass("clicked")) {
+                je.removeClass("clicked")
+                je.css("background-color", "")
+            } else {
+                je.addClass("clicked")
+                je.css("background-color", "#"+Math.floor(3355443+Math.random()*13421772).toString(16))
+            }
+        })
+
+        let tileSize = Math.floor($(window).width()*0.99/GRID_SIZE)
+        let windowHeight = $(window).height()
+        
+        for (i=0; i<windowHeight/tileSize; i++) {
+            addRowsOfTiles(1)
+        } 
+
+        adjustTileSize()
+        
+    </script>
+</body>
+</html>
