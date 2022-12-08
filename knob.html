@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>knob POC</title>
+
+    <style>
+        * { box-sizing: border-box; }
+
+            .container {
+                width: 350px;
+                margin: 100px auto;
+            }
+
+            .dial {
+                width: 350px;
+                height: 350px;
+                background: gray;
+                border-radius: 50%;
+                border: 5px solid black;
+            position:relative;
+            text-align:center;
+            line-height:350px;
+            font-size:50px;
+            font-family: Arial;
+            color:#FFF;
+            }
+
+            .dial .hole_wrapper {
+            width:100%;
+            height:100%;
+            position:absolute;
+            left:0;
+            top:0;
+            }
+
+            .dial .hole {
+            background: black;
+            border-radius: 50%;
+            border: 5px solid black;
+            width: 80px;
+                height: 80px;
+            margin-left:auto;
+            margin-right:auto;
+            margin-top:10px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+	<div class="dial" data-rotation="0">
+    <div class="hole_wrapper">
+      <div class="hole">
+      </div>
+    </div>
+    <span class="value">
+      100
+    </span>
+	</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" ></script>
+<script>
+(function($) {
+	'use strict';
+	
+	/**
+	 * Dial element
+	 * @var object
+	 */
+	const $dial = $('.dial');
+  const $dial_hole_wrapper = $('.dial > .hole_wrapper');
+	
+	/**
+	 * Calculate mouse rotation relative to $dial center
+	 * @param  int  mouse_x
+	 * @param  int  mouse_y
+	 */
+  const radius	= $dial.outerWidth() / 2;
+  const center_x	= $dial.offset().left + radius;
+	const center_y	= $dial.offset().top + radius;
+	
+  let degrees = 0
+  let old_degrees = 0
+  
+	function get_degrees(mouse_x, mouse_y) {
+
+		const radians	= Math.atan2(mouse_x - center_x, mouse_y - center_y);
+		const degrees	= Math.round((radians * (180 / Math.PI) * -1) + 100);
+
+		return degrees;
+	}
+	
+	$dial.on('mousedown', function(event) {
+		
+		// Calculate the mouse position in degrees
+		const click_degrees = get_degrees(event.pageX, event.pageY);
+
+		$(document).bind('mousemove', click_degrees, function(event) {
+			// Calculate the mouse move position, removing starting point
+      
+      
+			degrees = parseInt($dial.attr('data-rotation')) + get_degrees(event.pageX, event.pageY) - click_degrees;
+ 
+      if (degrees<0) {
+      	degrees+=360
+      }
+      
+      let current_knob_value = parseInt($dial.children(".value").text())
+      if (degrees > old_degrees) {
+      	current_knob_value+=1
+      } else {
+      	current_knob_value-=1
+      }
+      
+      current_knob_value = Math.min(Math.max(current_knob_value,0),200)
+      
+      $dial.children(".value").text(current_knob_value)
+      
+      old_degrees = degrees
+
+			$dial_hole_wrapper.css('transform', 'rotate('+degrees+'deg)');
+      
+		});
+	});
+
+	$(document).on('mouseup', function(event) {
+		$(document).unbind('mousemove');
+    
+    $dial.attr('data-rotation', degrees%360)
+	});
+	
+})(jQuery);
+</script>
+</body>
+</html>
