@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <link rel="stylesheet" href="css/glyphicons.css">
+
     <style>
         html, body {
             margin:0px;
@@ -19,7 +21,7 @@
             display:none;
         }
 
-        div#content {
+        div#tileContainer {
             text-align: center; 
             padding-top:5px;
         }
@@ -36,20 +38,46 @@
             align-items: center;
         }
 
-        div.clicker {
+        div.placeHolder {
             width: 90%;
             height: 90%;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #222;
+            background: #111;
             border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
         }
 
-        div.clicker.clicked {
-            transition: background-color 0.3s;
+        div.control.button.mono {
+            width:100px;
+            height:100px;
+            position:absolute;
+            background: #111;
+            border-radius: 10px;
+            cursor:pointer;
+            border:3px solid #000;
+        }
+
+        div.control.button.mono:hover {
+            background: #222;
+        }
+
+        div.control.button.mono div.iconContainer, div.control.button.mono div.labelContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        div.control.button.mono div.iconContainer {
+            height:75%;
+            font-size: 60px;
+        }
+        
+        div.control.button.mono div.labelContainer {
+            height:25%;
+            color: #FFF;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
         }
 
 
@@ -61,26 +89,71 @@
     <div id="elementFactory">
         <div class="tile">
             <div class="centerWrapper">
-                <div class="clicker">
+                <div class="placeHolder">
                 </div>
+            </div>
+        </div>
+
+        <div class="control button mono" data-size-ratio="2">
+            <div class="iconContainer">
+                <span class="icon glyphicon"></span>
+            </div>
+            <div class="labelContainer">
+                <span class="label">Hello</span>
             </div>
         </div>
     </div>
 
-    <div id="content">
+    <div id="tileContainer">
+    </div>
+
+    <div id="controlContainer">
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
     <script>
-        let GRID_SIZE = 6
+        let GRID_SIZE = 12
 
         let currentRow = 0
 
-        function adjustTileSize(){
-            let tileSize = Math.floor($(window).width()*0.99/GRID_SIZE)
+        function addControl(positionTileId, type, color, icon, label, tileSize) {
+            let newControl = $("#elementFactory ."+type).clone()
+            
+            let position = $("#"+positionTileId).position()
 
+            newControl.css("left", position.left+"px")
+            newControl.css("top", position.top+"px")
+            newControl.attr("data-position-tile", positionTileId)
+
+            let sizeRatio = parseInt(newControl.attr("data-size-ratio"))
+            newControl.css("width", (tileSize*sizeRatio-6)+"px")
+            newControl.css("height", (tileSize*sizeRatio-6)+"px")
+
+            newControl.find(".icon").addClass("glyphicon-"+icon)
+            newControl.find(".icon").css("color", color)
+
+            newControl.find(".label").text(label)
+
+            newControl.appendTo("#controlContainer")
+        }   
+
+        function adjustTileSize(tileSize){
             $(".tile").css("height", tileSize+"px")
             $(".tile").css("width", tileSize+"px")
+        }
+
+        function adjustControls(tileSize){
+            $("#controlContainer").children(".control").each(function(index, e){
+                let je = $(e)
+                let position = $("#"+je.attr("data-position-tile")).position()
+                je.css("left", position.left+"px")
+                je.css("top", position.top+"px")
+
+                let sizeRatio = parseInt(je.attr("data-size-ratio"))
+                je.css("width", (tileSize*sizeRatio-6)+"px")
+                je.css("height", (tileSize*sizeRatio-6)+"px")
+
+            })
         }
 
         function addRowsOfTiles(rowCount) {
@@ -91,7 +164,7 @@
 
                     newElement.attr("id", "tile_"+coord)
 
-                    newElement.appendTo("#content")
+                    newElement.appendTo("#tileContainer")
                 }
             }
 
@@ -99,7 +172,10 @@
         }
 
         $( window ).resize(function() {
-            adjustTileSize()
+            let tileSize = Math.floor($(window).width()*0.99/GRID_SIZE)
+
+            adjustTileSize(tileSize)
+            adjustControls(tileSize)
         });
 
         $(window).scroll(function() {
@@ -108,17 +184,6 @@
             }
         });
 
-        $(".clicker").click(function(e){
-            je = $(e.target)
-            if (je.hasClass("clicked")) {
-                je.removeClass("clicked")
-                je.css("background-color", "")
-            } else {
-                je.addClass("clicked")
-                je.css("background-color", "#"+Math.floor(3355443+Math.random()*13421772).toString(16))
-            }
-        })
-
         let tileSize = Math.floor($(window).width()*0.99/GRID_SIZE)
         let windowHeight = $(window).height()
         
@@ -126,7 +191,22 @@
             addRowsOfTiles(1)
         } 
 
-        adjustTileSize()
+        adjustTileSize(tileSize)
+        
+
+        addControl("tile_0_0", "control.button.mono", "#FF8800", "object-align-vertical", "Align center", tileSize)
+        addControl("tile_0_2", "control.button.mono", "#FF8800", "object-align-top", "Align top", tileSize)
+        addControl("tile_0_4", "control.button.mono", "#FF8800", "object-align-horizontal", "Align middle", tileSize)
+        addControl("tile_0_6", "control.button.mono", "#00E000", "volume-down", "Volume -", tileSize)
+        addControl("tile_0_8", "control.button.mono", "#00E000", "volume-off", "Mute", tileSize)
+        addControl("tile_0_10", "control.button.mono", "#00E000", "volume-up", "Volume +", tileSize)
+
+        addControl("tile_2_0", "control.button.mono", "#E08800", "object-align-left", "Align left", tileSize)
+        addControl("tile_2_2", "control.button.mono", "#E08800", "object-align-bottom", "Align-bottom", tileSize)
+        addControl("tile_2_4", "control.button.mono", "#E08800", "object-align-right", "Alight right", tileSize)
+        addControl("tile_2_6", "control.button.mono", "#E0E000", "save", "Pull", tileSize)
+        addControl("tile_2_8", "control.button.mono", "#E0E000", "saved", "Commit", tileSize)
+        addControl("tile_2_10", "control.button.mono", "#E0E000", "open", "Push", tileSize)
         
     </script>
 </body>
