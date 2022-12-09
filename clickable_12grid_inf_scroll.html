@@ -73,6 +73,12 @@
             font-size: 50px;
         }
         
+        div.control.button.mono div.iconContainer img.loading{
+            position:absolute;
+            height:100%;
+            display: none;
+        }
+        
         div.control.button.mono div.labelContainer {
             height:25%;
             color: #FFF;
@@ -96,6 +102,7 @@
 
         <div class="control button mono" data-size-ratio="2">
             <div class="iconContainer">
+                <img class="loading" src="images/loading.svg">
                 <span class="icon glyphicon"></span>
             </div>
             <div class="labelContainer">
@@ -117,7 +124,7 @@
         let currentRow = 0
 
         function addControl(positionTileId, type, color, icon, label, tileSize) {
-            let newControl = $("#elementFactory ."+type).clone()
+            let newControl = $("#elementFactory ."+type).clone(true)
             
             let position = $("#"+positionTileId).position()
 
@@ -183,6 +190,17 @@
                 addRowsOfTiles(12)
             }
         });
+
+        $(".control.button.mono").click(function(){
+            let jt = $(this)
+            jt.find(".icon").fadeOut(200)
+            jt.find("img.loading").fadeIn(200)
+            
+            setTimeout(function(){
+                jt.find("img.loading").fadeOut(200)
+                jt.find(".icon").fadeIn(200)
+            }, 1000)
+        })
 
         let tileSize = Math.floor($(window).width()*0.99/GRID_SIZE)
         let windowHeight = $(window).height()
