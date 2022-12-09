@@ -55,7 +55,7 @@
             background: #111;
             border-radius: 10px;
             cursor:pointer;
-            border:3px solid #000;
+            border:5px solid #000;
         }
 
         div.control.button.mono:hover {
@@ -70,7 +70,7 @@
         
         div.control.button.mono div.iconContainer {
             height:75%;
-            font-size: 60px;
+            font-size: 50px;
         }
         
         div.control.button.mono div.labelContainer {
@@ -126,8 +126,8 @@
             newControl.attr("data-position-tile", positionTileId)
 
             let sizeRatio = parseInt(newControl.attr("data-size-ratio"))
-            newControl.css("width", (tileSize*sizeRatio-6)+"px")
-            newControl.css("height", (tileSize*sizeRatio-6)+"px")
+            newControl.css("width", (tileSize*sizeRatio-10)+"px")
+            newControl.css("height", (tileSize*sizeRatio-10)+"px")
 
             newControl.find(".icon").addClass("glyphicon-"+icon)
             newControl.find(".icon").css("color", color)
@@ -150,8 +150,8 @@
                 je.css("top", position.top+"px")
 
                 let sizeRatio = parseInt(je.attr("data-size-ratio"))
-                je.css("width", (tileSize*sizeRatio-6)+"px")
-                je.css("height", (tileSize*sizeRatio-6)+"px")
+                je.css("width", (tileSize*sizeRatio-10)+"px")
+                je.css("height", (tileSize*sizeRatio-10)+"px")
 
             })
         }
@@ -191,9 +191,6 @@
             addRowsOfTiles(1)
         } 
 
-        adjustTileSize(tileSize)
-        
-
         addControl("tile_0_0", "control.button.mono", "#FF8800", "object-align-vertical", "Align center", tileSize)
         addControl("tile_0_2", "control.button.mono", "#FF8800", "object-align-top", "Align top", tileSize)
         addControl("tile_0_4", "control.button.mono", "#FF8800", "object-align-horizontal", "Align middle", tileSize)
@@ -207,6 +204,9 @@
         addControl("tile_2_6", "control.button.mono", "#E0E000", "save", "Pull", tileSize)
         addControl("tile_2_8", "control.button.mono", "#E0E000", "saved", "Commit", tileSize)
         addControl("tile_2_10", "control.button.mono", "#E0E000", "open", "Push", tileSize)
+
+        adjustTileSize(tileSize)
+        adjustControls(tileSize)
         
     </script>
 </body>
