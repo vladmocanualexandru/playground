@@ -46,14 +46,26 @@ div.control.knob div.wheel div.rotatingLayer {
     text-align: center;
 }
 
+div.control.knob div.wheel div.rotatingLayer.fixed {
+    background-image: url("../../images/knob_fixed.svg");
+}
+
+div.control.knob div.wheel div.rotatingLayer.infinite {
+    background-image: url("../../images/knob_infinite.svg");
+}
+
 div.control.knob.loading div.wheel div.dot{
     opacity: 0.2;
     transition: opacity 0.2s;
 }
 
+div.control.knob div.wheel div.rotatingLayer.infinite div.dot{
+    display: none;
+}
+
 div.control.knob div.wheel div.rotatingLayer div.dot {
-    width: 20%;
-    height: 20%;
+    width: 15%;
+    height: 15%;
     margin-top:5%;
     border-radius: 50%;
     background: #222;
