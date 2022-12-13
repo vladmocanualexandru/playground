@@ -6,110 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="stylesheet" href="css/glyphicons.css">
+    <link rel="stylesheet" href="css/style.css">
 
-    <style>
-        html, body {
-            margin:0px;
-            padding:0px;
-            width:100%;
-            height:100%;
-            background:#000;
-            font-size: 0;
-        }
+    <link rel="stylesheet" href="css/controls/button_mono.css">
+    <link rel="stylesheet" href="css/controls/knob.css">
 
-        div#elementFactory {
-            display:none;
-        }
-
-        div#tileContainer {
-            text-align: center; 
-            padding-top:5px;
-        }
-        
-        div.tile {
-            display:inline-block;
-        }
-
-        div.centerWrapper {
-            width:100%;
-            height:100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        div.placeHolder {
-            width: 90%;
-            height: 90%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #111;
-            border-radius: 10px;
-        }
-
-        div.control.button.mono {
-            width:100px;
-            height:100px;
-            position:absolute;
-            background: #111;
-            border-radius: 10px;
-            cursor:pointer;
-            border:5px solid #000;
-        }
-
-
-        div.control.button.mono:hover {
-            background: #222;
-        }
-
-        div.control.button.mono div.iconContainer, div.control.button.mono div.labelContainer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        div.control.button.mono div.iconContainer {
-            height:75%;
-            font-size: 35px;
-        }
-
-        div.control.button.mono div.iconContainer span.icon {
-            opacity:1;
-            transition: opacity 0.2s;
-        }
-
-        div.control.button.mono.clicked div.iconContainer span.icon {
-            opacity:0.2;
-            transition: opacity 0.2s;
-        }
-        
-        div.control.button.mono div.labelContainer span.label {
-            opacity:1;
-            transition: opacity 0.2s;
-        }
-
-        div.control.button.mono.clicked div.labelContainer span.label {
-            opacity:0.2;
-            transition: opacity 0.2s;
-        }
-        
-        div.control.button.mono div.iconContainer img.loading{
-            position:absolute;
-            height:80%;
-            display: none;
-        }
-        
-        div.control.button.mono div.labelContainer {
-            height:25%;
-            color: #FFF;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 15px;
-        }
-
-
-    </style>
-    
     <title>POC</title>
 </head>
 <body>
@@ -127,9 +28,22 @@
                 <span class="icon glyphicon"></span>
             </div>
             <div class="labelContainer">
-                <span class="label">Hello</span>
+                <span class="label"></span>
             </div>
         </div>
+
+        <div class="control knob" data-size-ratio="4">
+            <div class="wheel unclicked">
+                <img class="loading" src="images/loading.svg">
+                <div class="rotatingLayer">
+                    <div class="dot"></div>
+                </div>
+            </div>
+            <div class="labelContainer">
+                <span class="label"></span>
+            </div>
+        </div>
+
     </div>
 
     <div id="tileContainer">
@@ -138,111 +52,18 @@
     <div id="controlContainer">
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+    <script src="js/jquery_3.6.1.js"></script>
+
     <script>
-        let GRID_SIZE = 12
+        const GRID_SIZE = 12
+        let controlFactory = {}
+    </script>
 
-        let currentRow = 0
+    <script src="js/controls/button_mono.js"></script>
+    <script src="js/controls/knob.js"></script>
+    <script src="js/script.js"></script>
 
-        function addControl(positionTileId, type, color, icon, label, tileSize) {
-            let newControl = $("#elementFactory ."+type).clone(true)
-            
-            let position = $("#"+positionTileId).position()
-
-            newControl.css("left", position.left+"px")
-            newControl.css("top", position.top+"px")
-            newControl.attr("data-position-tile", positionTileId)
-
-            let sizeRatio = parseInt(newControl.attr("data-size-ratio"))
-            newControl.css("width", (tileSize*sizeRatio-10)+"px")
-            newControl.css("height", (tileSize*sizeRatio-10)+"px")
-
-            newControl.find(".icon").addClass("glyphicon-"+icon)
-            newControl.find(".icon").css("color", color)
-
-            newControl.find(".label").text(label)
-
-            newControl.appendTo("#controlContainer")
-        }   
-
-        function adjustTileSize(tileSize){
-            $(".tile").css("height", tileSize+"px")
-            $(".tile").css("width", tileSize+"px")
-        }
-
-        function adjustControls(tileSize){
-            $("#controlContainer").children(".control").each(function(index, e){
-                let je = $(e)
-                let position = $("#"+je.attr("data-position-tile")).position()
-                je.css("left", position.left+"px")
-                je.css("top", position.top+"px")
-
-                let sizeRatio = parseInt(je.attr("data-size-ratio"))
-                je.css("width", (tileSize*sizeRatio-10)+"px")
-                je.css("height", (tileSize*sizeRatio-10)+"px")
-
-            })
-        }
-
-        function addRowsOfTiles(rowCount) {
-            for (rowIndex = 0; rowIndex<rowCount; rowIndex++){
-                for (colIndex=0; colIndex<GRID_SIZE; colIndex++) {
-                    let coord =(currentRow+rowIndex)+"_"+colIndex
-                    let newElement = $("#elementFactory .tile").clone(true)
-
-                    newElement.attr("id", "tile_"+coord)
-
-                    newElement.appendTo("#tileContainer")
-                }
-            }
-
-            currentRow+=rowCount
-        }
-
-        $( window ).resize(function() {
-            let tileSize = Math.floor($(window).width()*0.99/GRID_SIZE)
-
-            adjustTileSize(tileSize)
-            adjustControls(tileSize)
-        });
-
-        $(window).scroll(function() {
-            if($(window).scrollTop() + $(window).height() > $(document).height()*0.9) {
-                addRowsOfTiles(12)
-            }
-        });
-
-        $(".control.button.mono").click(function(){
-            let jt = $(this)
-            jt.find("img.loading").fadeIn(200)
-            jt.addClass("clicked")
-            
-            setTimeout(function(){
-                jt.find("img.loading").fadeOut(200)
-                jt.removeClass("clicked")
-            }, 1000)
-        })
-
-        let tileSize = Math.floor($(window).width()*0.99/GRID_SIZE)
-        let windowHeight = $(window).height()
-        
-        for (i=0; i<windowHeight/tileSize; i++) {
-            addRowsOfTiles(1)
-        } 
-
-        addControl("tile_0_0", "control.button.mono", "#FF8800", "object-align-vertical", "Align middle", tileSize)
-        addControl("tile_0_3", "control.button.mono", "#FF8800", "object-align-horizontal", "Align center", tileSize)
-        addControl("tile_0_6", "control.button.mono", "#00E000", "volume-down", "Volume -", tileSize)
-        addControl("tile_0_9", "control.button.mono", "#00E000", "volume-up", "Volume +", tileSize)
-
-        addControl("tile_3_0", "control.button.mono", "#EEE000", "save", "Pull", tileSize)
-        addControl("tile_3_3", "control.button.mono", "#EEE000", "open", "Push", tileSize)
-        addControl("tile_3_6", "control.button.mono", "#00E000", "play", "Play/Pause", tileSize)
-        addControl("tile_3_9", "control.button.mono", "#00E000", "step-forward", "Next", tileSize)
-
-        adjustTileSize(tileSize)
-        adjustControls(tileSize)
-        
+   
     </script>
 </body>
 </html>

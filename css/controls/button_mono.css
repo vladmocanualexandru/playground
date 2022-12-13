@@ -1,0 +1,51 @@
+div.control.button.mono {
+    position:absolute;
+    background: #111;
+    border-radius: 10px;
+    cursor:pointer;
+    border:5px solid #000;
+}
+
+div.control.button.mono div.iconContainer, div.control.button.mono div.labelContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.control.button.mono div.iconContainer {
+    height:75%;
+    font-size: 35px;
+}
+
+div.control.button.mono div.iconContainer span.icon {
+    opacity:1;
+    transition: opacity 0.2s;
+}
+
+div.control.button.mono.clicked div.iconContainer span.icon {
+    opacity:0.2;
+    transition: opacity 0.2s;
+}
+
+div.control.button.mono div.labelContainer span.label {
+    opacity:1;
+    transition: opacity 0.2s;
+}
+
+div.control.button.mono.clicked div.labelContainer span.label {
+    opacity:0.2;
+    transition: opacity 0.2s;
+}
+
+div.control.button.mono div.iconContainer img.loading{
+    position:absolute;
+    height:80%;
+    display: none;
+}
+
+div.control.button.mono div.labelContainer {
+    height:25%;
+    color: #FFF;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}

@@ -1,0 +1,72 @@
+div.control.knob {
+    position:absolute;
+    background: #111;
+    border-radius: 10px;
+    border:5px solid #000;
+    padding-top:1%;
+}
+
+div.control.knob div.wheel, div.control.knob div.labelContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.control.knob div.wheel {
+    height:74%;
+    margin: 0px 13%;
+    border-radius: 50%;
+    cursor:move;
+    border:3px solid #222;
+    transition: border-color 0.2s;
+}
+
+div.control.knob div.wheel.unclicked {
+    border-color: #222 !important;
+    transition: border-color 0.2s;
+}
+
+div.control.knob.loading div.wheel.unclicked {
+    border-color: transparent !important;
+    transition: border-color 0.2s;
+}
+
+
+div.control.knob img.loading{
+    position:absolute;
+    height:96%;
+    display: none;
+}
+
+
+div.control.knob div.wheel div.rotatingLayer {
+    width:100%;
+    height:100%;
+    text-align: center;
+}
+
+div.control.knob.loading div.wheel div.dot{
+    opacity: 0.2;
+    transition: opacity 0.2s;
+}
+
+div.control.knob div.wheel div.rotatingLayer div.dot {
+    width: 20%;
+    height: 20%;
+    margin-top:5%;
+    border-radius: 50%;
+    background: #222;
+    display:inline-block;
+    transition: opacity 0.2s;
+}
+
+div.control.knob div.labelContainer {
+    height:25%;
+    color: #FFF;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+div.control.knob.loading div.labelContainer span {
+    opacity:0.2;
+}
