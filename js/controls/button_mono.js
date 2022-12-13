@@ -1,5 +1,7 @@
-controlFactory["control.button.mono"] = function(positionTileId, type, color, icon, label, tileSize){
+controlFactory["control.button.mono"] = function(positionTileId, type, sizeRatio, color, icon, label, tileSize){
     let newControl = $("#elementFactory ."+type).clone(true)
+
+    newControl.attr("data-size-ratio", sizeRatio)
     
     let position = $("#"+positionTileId).position()
     
@@ -7,7 +9,6 @@ controlFactory["control.button.mono"] = function(positionTileId, type, color, ic
     newControl.css("top", position.top+"px")
     newControl.attr("data-position-tile", positionTileId)
     
-    let sizeRatio = parseInt(newControl.attr("data-size-ratio"))
     newControl.css("width", (tileSize*sizeRatio-10)+"px")
     newControl.css("height", (tileSize*sizeRatio-10)+"px")
     

@@ -1,7 +1,7 @@
 let currentRow = 0
 
-function addControl(positionTileId, type, color, icon, label, tileSize) {
-    controlFactory[type](positionTileId, type, color, icon, label, tileSize).appendTo("#controlContainer")
+function addControl(positionTileId, type, sizeRatio, color, icon, label, tileSize) {
+    controlFactory[type](positionTileId, type, sizeRatio, color, icon, label, tileSize).appendTo("#controlContainer")
 }   
 
 function adjustTileSize(tileSize){
@@ -52,25 +52,35 @@ $(window).scroll(function() {
 });
 
 let tileSize = Math.floor($(window).width()*0.99/GRID_SIZE)
-let windowHeight = $(window).height()
+let windowHeight = $(window).height()*2
 
 for (i=0; i<windowHeight/tileSize; i++) {
     addRowsOfTiles(1)
 } 
 
-addControl("tile_0_0", "control.button.mono", "#FF8800", "object-align-vertical", "Align middle", tileSize)
-addControl("tile_0_3", "control.button.mono", "#FF8800", "object-align-horizontal", "Align center", tileSize)
-addControl("tile_0_6", "control.button.mono", "#00E000", "volume-down", "Volume -", tileSize)
-addControl("tile_0_9", "control.button.mono", "#00E000", "volume-up", "Volume +", tileSize)
+addControl("tile_0_0", "control.button.mono", 3, "#0088E0", "envelope", "Mail", tileSize)
+addControl("tile_0_9", "control.button.mono", 3, "#E00000", "off", "Shutdown", tileSize)
 
-addControl("tile_3_0", "control.button.mono", "#EEE000", "save", "Pull", tileSize)
-addControl("tile_3_3", "control.button.mono", "#EEE000", "open", "Push", tileSize)
-addControl("tile_3_6", "control.button.mono", "#00E000", "play", "Play/Pause", tileSize)
-addControl("tile_3_9", "control.button.mono", "#00E000", "step-forward", "Next", tileSize)
+addControl("tile_3_0", "control.button.mono", 3, "#00E000", "play", "Play/Pause", tileSize)
+addControl("tile_3_9", "control.button.mono", 3, "#00E000", "step-forward", "Next", tileSize)
 
-addControl("tile_6_0", "control.knob", "#FF8800", "", "Brightness", tileSize)
-addControl("tile_6_4", "control.knob", "#EEE000", "", "Contrast", tileSize)
-addControl("tile_6_8", "control.knob", "#00E000", "", "Saturation", tileSize)
+addControl("tile_0_3", "control.knob", 6, "#00E000", "", "Volume", tileSize)
+
+addControl("tile_6_0", "control.button.mono", 3, "#E0E000", "save", "Git pull", tileSize)
+addControl("tile_6_3", "control.button.mono", 3, "#E0E000", "search", "Git status", tileSize)
+addControl("tile_6_6", "control.button.mono", 3, "#E0E000", "export", "Git commit", tileSize)
+addControl("tile_6_9", "control.button.mono", 3, "#E0E000", "saved", "Git push", tileSize)
+
+addControl("tile_9_0", "control.button.mono", 4, "#E08800", "compressed", "Merge all", tileSize)
+addControl("tile_9_4", "control.knob", 4, "#b7ff00", "", "Brightness", tileSize)
+addControl("tile_9_8", "control.knob", 4, "#00ff33", "", "Contrast", tileSize)
+
+addControl("tile_13_6", "control.button.mono", 6, "#E0E0E0", "apple", "Check latest iphone deals", tileSize)
+addControl("tile_13_0", "control.knob", 3, "#ff8800", "", "Tolerance", tileSize)
+addControl("tile_13_3", "control.knob", 3, "#00fbff", "", "Smoothness", tileSize)
+addControl("tile_16_0", "control.knob", 3, "#2f00ff", "", "Pitch", tileSize)
+addControl("tile_16_3", "control.knob", 3, "#80ff00", "", "Tempo", tileSize)
+
 
 adjustTileSize(tileSize)
 adjustControls(tileSize)

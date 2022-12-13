@@ -3,7 +3,6 @@ div.control.knob {
     background: #111;
     border-radius: 10px;
     border:5px solid #000;
-    padding-top:1%;
 }
 
 div.control.knob div.wheel, div.control.knob div.labelContainer {
@@ -13,8 +12,10 @@ div.control.knob div.wheel, div.control.knob div.labelContainer {
 }
 
 div.control.knob div.wheel {
-    height:74%;
-    margin: 0px 13%;
+    margin-top:5%;
+    height:75%;
+    margin-left: 12.5%;
+    margin-right: 12.5%;
     border-radius: 50%;
     cursor:move;
     border:3px solid #222;
@@ -61,7 +62,7 @@ div.control.knob div.wheel div.rotatingLayer div.dot {
 }
 
 div.control.knob div.labelContainer {
-    height:25%;
+    height:20%;
     color: #FFF;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 10px;
