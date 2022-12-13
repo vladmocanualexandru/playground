@@ -1,6 +1,6 @@
-controlFactory["control.button.mono"] = function(positionTileId, type, sizeRatio, color, icon, label, tileSize){
-    let newControl = $("#elementFactory ."+type).clone(true)
-
+controlFactory["control.button.mono"] = function(newControl, positionTileId, sizeRatio, color, label, tileSize, ...customData){
+    let icon = customData[0]
+    
     newControl.attr("data-size-ratio", sizeRatio)
     
     let position = $("#"+positionTileId).position()

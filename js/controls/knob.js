@@ -1,7 +1,8 @@
-controlFactory["control.knob"] = function(positionTileId, type, sizeRatio, color, icon, label, tileSize){
-    let newControl = $("#elementFactory ."+type).clone(true)
+controlFactory["control.knob"] = function(newControl, positionTileId, sizeRatio, color, label, tileSize, ...customData){
+    let isInfinite = customData[0]
 
     newControl.attr("data-size-ratio", sizeRatio)
+    newControl.attr("data-is-infinite", isInfinite)
     
     let position = $("#"+positionTileId).position()
     
@@ -38,6 +39,8 @@ $('.control.knob > .wheel').on({ 'touchstart' : function(e){
 
 $('.control.knob > .wheel').on({ 'touchmove' : function(e){ 
     if (rotationEnabled) {
+        let isInfinite = targetWheel.parent().attr("data-is-infinite") == "true"
+
         let offset = targetWheel.offset();
         let width = targetWheel.width();
         let height = targetWheel.height();
@@ -55,7 +58,12 @@ $('.control.knob > .wheel').on({ 'touchmove' : function(e){
             angle = 180-radians_to_degrees(Math.atan((clientX-wheelCenterX)/(clientY-wheelCenterY)))
         }
         
-        targetWheel.children(".rotatingLayer").css("rotate", angle+"deg")
+        if (angle<0) {
+            angle +=360 
+        }
+
+        if (isInfinite || angle<136 || angle > 224)
+            targetWheel.children(".rotatingLayer").css("rotate", angle+"deg")
         
         // console.log(angle)
     }

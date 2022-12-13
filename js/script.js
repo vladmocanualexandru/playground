@@ -1,7 +1,7 @@
 let currentRow = 0
 
-function addControl(positionTileId, type, sizeRatio, color, icon, label, tileSize) {
-    controlFactory[type](positionTileId, type, sizeRatio, color, icon, label, tileSize).appendTo("#controlContainer")
+function addControl(positionTileId, type, sizeRatio, color, label, tileSize, ...customData) {
+    controlFactory[type]($("#elementFactory ."+type).clone(true), positionTileId, sizeRatio, color, label, tileSize, customData).appendTo("#controlContainer")
 }   
 
 function adjustTileSize(tileSize){
@@ -52,34 +52,34 @@ $(window).scroll(function() {
 });
 
 let tileSize = Math.floor($(window).width()*0.99/GRID_SIZE)
-let windowHeight = $(window).height()*2
+let windowHeight = $(window).height()*5
 
 for (i=0; i<windowHeight/tileSize; i++) {
     addRowsOfTiles(1)
 } 
 
-addControl("tile_0_0", "control.button.mono", 3, "#0088E0", "envelope", "Mail", tileSize)
-addControl("tile_0_9", "control.button.mono", 3, "#E00000", "off", "Shutdown", tileSize)
+addControl("tile_0_0", "control.button.mono", 3, "#0088E0", "Mail", tileSize, "envelope")
+addControl("tile_0_9", "control.button.mono", 3, "#E00000", "Shutdown", tileSize, "off")
+addControl("tile_0_3", "control.button.mono", 3, "#00E000", "Play/Pause", tileSize, "play")
+addControl("tile_0_6", "control.button.mono", 3, "#00E000", "Next", tileSize, "step-forward")
 
-addControl("tile_3_0", "control.button.mono", 3, "#00E000", "play", "Play/Pause", tileSize)
-addControl("tile_3_9", "control.button.mono", 3, "#00E000", "step-forward", "Next", tileSize)
+addControl("tile_9_0", "control.button.mono", 4, "#E08800", "Merge all", tileSize, "compressed")
+addControl("tile_19_0", "control.button.mono", 12, "#0088E0", "Big button chungus", tileSize, "apple")
+addControl("tile_16_3", "control.button.mono", 2, "#f0f000", "Mullah", tileSize, "euro")
+addControl("tile_18_11", "control.button.mono", 1, "#00E000", "Smol", tileSize, "heart")
 
-addControl("tile_0_3", "control.knob", 6, "#00E000", "", "Volume", tileSize)
+addControl("tile_3_0", "control.knob", 6, "#00E088", "Infinite", tileSize, true)
+addControl("tile_3_6", "control.knob", 6, "#E000E0", "Fixed", tileSize, false)
 
-addControl("tile_6_0", "control.button.mono", 3, "#E0E000", "save", "Git pull", tileSize)
-addControl("tile_6_3", "control.button.mono", 3, "#E0E000", "search", "Git status", tileSize)
-addControl("tile_6_6", "control.button.mono", 3, "#E0E000", "export", "Git commit", tileSize)
-addControl("tile_6_9", "control.button.mono", 3, "#E0E000", "saved", "Git push", tileSize)
-
-addControl("tile_9_0", "control.button.mono", 4, "#E08800", "compressed", "Merge all", tileSize)
-addControl("tile_9_4", "control.knob", 4, "#b7ff00", "", "Brightness", tileSize)
-addControl("tile_9_8", "control.knob", 4, "#00ff33", "", "Contrast", tileSize)
-
-addControl("tile_13_6", "control.button.mono", 6, "#E0E0E0", "apple", "Check latest iphone deals", tileSize)
-addControl("tile_13_0", "control.knob", 3, "#ff8800", "", "Tolerance", tileSize)
-addControl("tile_13_3", "control.knob", 3, "#00fbff", "", "Smoothness", tileSize)
-addControl("tile_16_0", "control.knob", 3, "#2f00ff", "", "Pitch", tileSize)
-addControl("tile_16_3", "control.knob", 3, "#80ff00", "", "Tempo", tileSize)
+addControl("tile_9_4", "control.knob", 4, "#b7ff00", "Fixed", tileSize, false)
+addControl("tile_13_7", "control.knob", 5, "#f0f0f0", "Fixed", tileSize, false)
+addControl("tile_9_8", "control.knob", 4, "#00ff33", "Infinite", tileSize, true)
+addControl("tile_13_0", "control.knob", 3, "#80ff00", "Fixed", tileSize, false)
+addControl("tile_13_3", "control.knob", 3, "#00fbff", "Infinite", tileSize, true)
+addControl("tile_16_0", "control.knob", 3, "#2f00ff", "Infinite", tileSize, true)
+addControl("tile_13_6", "control.knob", 1, "#E00000", "Smol", tileSize, false)
+addControl("tile_16_5", "control.knob", 2, "#8888ff", "fixed", tileSize, false)
+addControl("tile_31_0", "control.knob", 12, "#8800E0", "Big knob chungus", tileSize, true)
 
 
 adjustTileSize(tileSize)
