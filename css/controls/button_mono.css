@@ -1,9 +1,9 @@
 div.control.button.mono {
     position:absolute;
-    background: #111;
+    background: #000;
     border-radius: 10px;
     cursor:pointer;
-    border:5px solid #000;
+    border:5px solid #111;
 }
 
 div.control.button.mono div.iconContainer, div.control.button.mono div.labelContainer {

@@ -3,7 +3,7 @@ html, body {
     padding:0px;
     width:100%;
     height:100%;
-    background:#000;
+    background:#111;
     font-size: 0;
 }
 
@@ -38,6 +38,6 @@ div.placeHolder {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #111;
+    background: #000;
     border-radius: 10px;
 }
