@@ -27,11 +27,15 @@ div.control.knob div.wheel.unclicked {
     transition: border-color 0.2s;
 }
 
+div.control.knob div.wheel.unclicked div.rotatingLayer {
+    opacity:0.2;
+    transition: opacity 0.2s;
+}
+
 div.control.knob.loading div.wheel.unclicked {
     border-color: transparent !important;
     transition: border-color 0.2s;
 }
-
 
 div.control.knob img.loading{
     position:absolute;
@@ -39,10 +43,16 @@ div.control.knob img.loading{
     display: none;
 }
 
+div.control.knob div.value{
+    position:absolute;
+    color:#FFF;
+    font-size:35px;
+    font-family: Arial, Helvetica, sans-serif;
+}
 
 div.control.knob div.wheel div.rotatingLayer {
-    width:100%;
-    height:100%;
+    width:90%;
+    height:90%;
     text-align: center;
 }
 
