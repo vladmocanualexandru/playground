@@ -1,25 +1,13 @@
-controlFactory["control.knob"] = function(newControl, positionTileId, sizeRatio, color, label, tileSize, ...customData){
+controlFactory["control.knob"] = function(newControl, color, ...customData){
     let isInfinite = customData[0][0]
 
-    newControl.attr("data-size-ratio", sizeRatio)
     newControl.attr("data-is-infinite", isInfinite)
-    
-    let position = $("#"+positionTileId).position()
-    
-    newControl.css("left", position.left+"px")
-    newControl.css("top", position.top+"px")
-    newControl.attr("data-position-tile", positionTileId)
-    
-    newControl.css("width", (tileSize*sizeRatio-10)+"px")
-    newControl.css("height", (tileSize*sizeRatio-10)+"px")
 
     newControl.find(".rotatingLayer").addClass(isInfinite?"infinite":"fixed")
 
     newControl.find(".wheel").css("border-color", color)
     newControl.find(".value").css("color", color)
     newControl.find(".dot").css("background-color", color)
-    
-    newControl.find(".label").text(label)
     
     return newControl
 }

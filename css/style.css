@@ -7,37 +7,15 @@ html, body {
     font-size: 0;
 }
 
+body {
+    background-image: url("../images/background_tiles.svg");
+    background-size: contain;
+}
+
 body.scrollLocked {
     overflow: hidden;
 }
 
-div#elementFactory {
+div#controlPrototypeContainer {
     display:none;
-}
-
-div#tileContainer {
-    text-align: center; 
-    padding-top:5px;
-}
-
-div.tile {
-    display:inline-block;
-}
-
-div.centerWrapper {
-    width:100%;
-    height:100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-div.placeHolder {
-    width: 90%;
-    height: 90%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #000;
-    border-radius: 10px;
 }

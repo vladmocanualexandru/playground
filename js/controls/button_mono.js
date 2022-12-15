@@ -1,21 +1,8 @@
-controlFactory["control.button.mono"] = function(newControl, positionTileId, sizeRatio, color, label, tileSize, ...customData){
+controlFactory["control.button.mono"] = function(newControl, color, ...customData){
     let icon = customData[0]
-    
-    newControl.attr("data-size-ratio", sizeRatio)
-    
-    let position = $("#"+positionTileId).position()
-    
-    newControl.css("left", position.left+"px")
-    newControl.css("top", position.top+"px")
-    newControl.attr("data-position-tile", positionTileId)
-    
-    newControl.css("width", (tileSize*sizeRatio-10)+"px")
-    newControl.css("height", (tileSize*sizeRatio-10)+"px")
     
     newControl.find(".icon").addClass("glyphicon-"+icon)
     newControl.find(".icon").css("color", color)
-    
-    newControl.find(".label").text(label)
     
     return newControl
 }
