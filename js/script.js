@@ -114,8 +114,4 @@ addControl("tile_23_6", "control.knob", 6,        generateRandomColor(), "6x6 in
 addControl("tile_29_0", "control.button.mono", 12,generateRandomColor(), "12x12", tileSize, getRandomIcon())
 addControl("tile_41_0", "control.knob", 12,       generateRandomColor(), "12x12 fix", tileSize, false)
 
-// addControl("tile_9_4", "control.knob", 4, "#b7ff00", "Fixed", tileSize, false)
-
-
-adjustTileSize(tileSize)
-adjustControls(tileSize)
+window.dispatchEvent(new Event('resize'));

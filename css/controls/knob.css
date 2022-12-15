@@ -3,6 +3,13 @@ div.control.knob {
     background: #000;
     border-radius: 10px;
     border:5px solid #111;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
 
 div.control.knob div.wheel, div.control.knob div.labelContainer {
@@ -27,7 +34,7 @@ div.control.knob div.wheel.unclicked {
     transition: border-color 0.2s;
 }
 
-div.control.knob div.wheel.unclicked div.rotatingLayer {
+div.control.knob div.wheel.unclicked div.rotatingLayer div.background {
     opacity:0.2;
     transition: opacity 0.2s;
 }
@@ -54,34 +61,41 @@ div.control.knob div.wheel div.rotatingLayer {
     width:90%;
     height:90%;
     text-align: center;
+    rotate:0deg;
 }
 
-div.control.knob div.wheel div.rotatingLayer.fixed {
+div.control.knob div.wheel div.rotatingLayer div.background {
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+
+div.control.knob div.wheel div.rotatingLayer.fixed div.background {
     background-image: url("../../images/knob_fixed.svg");
 }
 
-div.control.knob div.wheel div.rotatingLayer.infinite {
+div.control.knob div.wheel div.rotatingLayer.infinite div.background {
     background-image: url("../../images/knob_infinite.svg");
 }
 
-div.control.knob.loading div.wheel div.dot{
+div.control.knob div.wheel div.rotatingLayer div.dot {
+    width: 16%;
+    height: 16%;
+    border-radius: 50%;
+    background: #222;
+    display:inline-block;
+    /* transition: opacity 0.2s; */
+}
+
+/* div.control.knob.loading div.wheel div.dot{
     opacity: 0.2;
     transition: opacity 0.2s;
-}
+} */
 
 div.control.knob div.wheel div.rotatingLayer.infinite div.dot{
     display: none;
 }
 
-div.control.knob div.wheel div.rotatingLayer div.dot {
-    width: 15%;
-    height: 15%;
-    margin-top:5%;
-    border-radius: 50%;
-    background: #222;
-    display:inline-block;
-    transition: opacity 0.2s;
-}
 
 div.control.knob div.labelContainer {
     height:20%;

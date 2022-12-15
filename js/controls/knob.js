@@ -17,7 +17,7 @@ controlFactory["control.knob"] = function(newControl, positionTileId, sizeRatio,
 
     newControl.find(".wheel").css("border-color", color)
     newControl.find(".value").css("color", color)
-    // newControl.find(".dot").css("background-color", color)
+    newControl.find(".dot").css("background-color", color)
     
     newControl.find(".label").text(label)
     
@@ -33,16 +33,20 @@ function radians_to_degrees(radians)
 let rotationEnabled = false
 let prevAngle = -1
 let targetWheel = null
-$('.control.knob > .wheel').on({ 'touchstart' : function(e){ 
+
+function inputStart(e) {
     // console.log("start")
     prevAngle = 0
     targetWheel = $(e.currentTarget)
     rotationEnabled = true
-    $("body").addClass("scrollLocked")
-    targetWheel.removeClass("unclicked")
-} });
 
-$('.control.knob > .wheel').on({ 'touchmove' : function(e){ 
+    if (e.type == 'touchstart') {
+        $("body").addClass("scrollLocked")
+    }
+    targetWheel.removeClass("unclicked")
+}
+
+function inputMove(e) {
     if (rotationEnabled) {
         let isInfinite = targetWheel.parent().attr("data-is-infinite") == "true"
 
@@ -53,9 +57,14 @@ $('.control.knob > .wheel').on({ 'touchmove' : function(e){
         let wheelCenterX = offset.left + width / 2
         let wheelCenterY = offset.top + height / 2
         
-        let clientX = e.touches[0].clientX
-        let clientY = e.touches[0].clientY + $(window).scrollTop()
-        // let clientY = e.touches[0].clientY;
+        let clientX = e.clientX
+        let clientY = e.clientY
+
+        if (e["type"]=="touchmove"){
+            clientX = e.touches[0].clientX
+            clientY = e.touches[0].clientY 
+        } 
+        clientY += $(window).scrollTop()
         
         let angle = 0
         if (clientY<wheelCenterY) {
@@ -92,20 +101,27 @@ $('.control.knob > .wheel').on({ 'touchmove' : function(e){
         // console.log($(window).scrollTop())
         // console.log(angle)
     }
-}});
+}
 
-$('.control.knob > .wheel').on({ 'touchend' : function(){ 
+function inputEnd(e) {
     // console.log("end")
     rotationEnabled = false
     $("body").removeClass("scrollLocked")
-    
+
     targetWheel.parent().addClass("loading")
     targetWheel.addClass("unclicked")
     targetWheel.parent().find("img.loading").fadeIn(200)
-    
+
     setTimeout(function(){
         // jt.find("img.loading").fadeOut(200)
         $('.control.knob').find('img.loading').fadeOut(200)
         $('.control.knob').removeClass("loading")
     }, 1000)
-}});
+}
+
+$('.control.knob > .wheel').on({ 'touchstart' : inputStart});
+$('.control.knob > .wheel').on({ 'mousedown' : inputStart});
+$('.control.knob > .wheel').on({ 'touchmove' : inputMove});
+$('.control.knob > .wheel').on({ 'mousemove' : inputMove});
+$('.control.knob > .wheel').on({ 'touchend' : inputEnd});
+$('.control.knob > .wheel').on({ 'mouseup' : inputEnd});
