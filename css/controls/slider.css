@@ -1,0 +1,84 @@
+div.control.slider {
+
+}
+
+div.control.slider div.value {
+    height:20%;
+    width:100%;
+    color:#FFF;
+    font-size:35px;
+    line-height:55px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+div.control.slider div.railContainer {
+    height:70%;
+    position:relative;
+}
+
+div.control.slider div.railContainer div.slot {
+    position: absolute;
+    margin-top:15px;
+    height: 80%;
+    background: #222;
+    border-radius: 10px;
+    width: 10px;
+    display: inline;
+    margin-left: -5px;
+}
+
+
+div.control.slider div.railContainer div.rail {
+    position: absolute;
+    margin-top:15px;
+    height: 80%;
+    background: #fff;
+    border-radius: 10px;
+    width: 10px;
+    display: inline;
+    margin-left: -5px;
+    opacity:0;
+    transition: opacity 0.2s;
+}
+
+div.control.slider.clicked div.railContainer div.rail {
+    opacity:1;
+    transition: opacity 0.2s;
+}
+
+div.control.slider div.railContainer div.dotContainer {
+    position:absolute;
+    top:0px;
+    height:30px;
+    width:100%;
+    text-align: center;
+}
+div.control.slider div.railContainer div.dotContainer div.dot {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #222;
+    display:inline-block;
+}
+
+div.control.slider div.railContainer div.dotContainer img.loading {
+    position:absolute;
+    top:0px;
+    height:30px;
+    width:30px;
+    height: 60px;
+    width: 60px;
+    margin-left: -45px;
+    margin-top: -15px;
+    display: none;
+}
+
+
+div.control.slider div.labelContainer {
+    height:10%;
+
+    width:100%;
+    color: #FFF;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}

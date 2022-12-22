@@ -4,16 +4,23 @@ function getTileSize() {
     return $(window).width()*0.9999/GRID_SIZE
 } 
 
-function addControl(line, column, type, sizeRatio, color, label, ...customData) {
-    let newControl = $("#controlPrototypeContainer ."+type).clone(true)
+// function addControl(line, column, type, sizeRatio, color, label, ...customData) {
+function addControl(config) {
+    let newControl = $("#controlPrototypeContainer ."+config.type).clone(true)
 
-    newControl.attr("data-position-line", line)
-    newControl.attr("data-position-column", column)
-    newControl.attr("data-size-ratio", sizeRatio)
+    if (config.hasOwnProperty("sizeRatio")) {
+        newControl.attr("data-size-ratio", config.sizeRatio)
+    } else {
+        newControl.attr("data-width-ratio", config.widthRatio)
+        newControl.attr("data-height-ratio", config.heightRatio)
+    }
 
-    newControl.find(".label").text(label)
+    newControl.attr("data-position-line", config.line)
+    newControl.attr("data-position-column", config.column)
 
-    controlFactory[type](newControl, color, customData).appendTo("#controlContainer")
+    newControl.find(".label").text(config.label)
+
+    controlFactory[config.type](newControl, config).appendTo("#controlContainer")
 }   
 
 function adjustControls(tileSize){
@@ -26,11 +33,20 @@ function adjustControls(tileSize){
         je.css("top", Math.round(line*tileSize)+"px")
         je.css("left", Math.round(column*tileSize)+"px")
 
-        let sizeRatio = parseInt(je.attr("data-size-ratio"))
+        if (je.attr("data-size-ratio") != undefined){
+            let sizeRatio = parseInt(je.attr("data-size-ratio"))
+            
+            // substract 10 to compensate for 5px border
+            je.css("width", Math.round(tileSize*sizeRatio-10)+"px")
+            je.css("height", Math.round(tileSize*sizeRatio-10)+"px")
+        } else {
+            let widthRatio = parseInt(je.attr("data-width-ratio"))
+            let heightRatio = parseInt(je.attr("data-height-ratio"))
 
-        // substract 10 to compensate for 5px border
-        je.css("width", Math.round(tileSize*sizeRatio-10)+"px")
-        je.css("height", Math.round(tileSize*sizeRatio-10)+"px")
+            // substract 10 to compensate for 5px border
+            je.css("width", Math.round(tileSize*widthRatio-10)+"px")
+            je.css("height", Math.round(tileSize*heightRatio-10)+"px")
+        }
 
     })
 }
@@ -74,30 +90,30 @@ $(window).scroll(function() {
 });
 
 
-addControl(0,0, "control.button.mono", 2,  generateRandomColor(), "2x2", getRandomIcon())
-addControl(0,2, "control.button.mono", 2,  generateRandomColor(), "2x2", getRandomIcon())
-addControl(0,4, "control.button.mono", 2,  generateRandomColor(), "2x2", getRandomIcon())
-addControl(0,6, "control.button.mono", 2,  generateRandomColor(), "2x2", getRandomIcon())
-addControl(0,8, "control.button.mono", 2,  generateRandomColor(), "2x2", getRandomIcon())
-addControl(0,10, "control.button.mono", 2, generateRandomColor(), "2x2", getRandomIcon())
-addControl(2,0, "control.button.mono", 3,  generateRandomColor(), "3x3", getRandomIcon())
-addControl(2,3, "control.button.mono", 3,  generateRandomColor(), "3x3", getRandomIcon())
-addControl(2,6, "control.button.mono", 3,  generateRandomColor(), "3x3", getRandomIcon())
-addControl(2,9, "control.button.mono", 3,  generateRandomColor(), "3x3", getRandomIcon())
-addControl(5,0, "control.knob", 4,        generateRandomColor(), "4x4 fix", false)
-addControl(5,4, "control.knob", 4,        generateRandomColor(), "4x4 fix", false)
-addControl(5,8, "control.knob", 4,        generateRandomColor(), "4x4 fix", false)
-addControl(9,0, "control.button.mono", 4, generateRandomColor(), "4x4", getRandomIcon())
-addControl(9,4, "control.button.mono", 4, generateRandomColor(), "4x4", getRandomIcon())
-addControl(9,8, "control.button.mono", 4, generateRandomColor(), "4x4", getRandomIcon())
-addControl(13,0, "control.knob", 4,        generateRandomColor(), "4x4 inf", true)
-addControl(13,4, "control.knob", 4,        generateRandomColor(), "4x4 inf", true)
-addControl(13,8, "control.knob", 4,        generateRandomColor(), "4x4 inf", true)
-addControl(17,0, "control.button.mono", 6, generateRandomColor(), "6x6", getRandomIcon())
-addControl(17,6, "control.button.mono", 6, generateRandomColor(), "6x6", getRandomIcon())
-addControl(23,0, "control.knob", 6,        generateRandomColor(), "6x6 fix", false)
-addControl(23,6, "control.knob", 6,        generateRandomColor(), "6x6 inf", true)
-addControl(29,0, "control.button.mono", 12,generateRandomColor(), "12x12", getRandomIcon())
-addControl(41,0, "control.knob", 12,       generateRandomColor(), "12x12 fix", false)
+
+addControl({line:0, column:0, type:"control.slider", widthRatio:2, heightRatio:10, color:generateRandomColor(), label:"Slider 2x10", data:{}})
+addControl({line:0, column:2, type:"control.slider", widthRatio:2, heightRatio:10, color:generateRandomColor(), label:"Slider 2x10", data:{}})
+addControl({line:0, column:4, type:"control.slider", widthRatio:2, heightRatio:10, color:generateRandomColor(), label:"Slider 2x10", data:{}})
+addControl({line:0, column:6, type:"control.slider", widthRatio:2, heightRatio:10, color:generateRandomColor(), label:"Slider 2x10", data:{}})
+addControl({line:0, column:8, type:"control.slider", widthRatio:2, heightRatio:10, color:generateRandomColor(), label:"Slider 2x10", data:{}})
+addControl({line:0, column:10, type:"control.slider", widthRatio:2, heightRatio:10, color:generateRandomColor(), label:"Slider 2x10", data:{}})
+
+addControl({line:10, column:0, type:"control.slider", widthRatio:3, heightRatio:8, color:generateRandomColor(), label:"Slider 3x8", data:{}})
+addControl({line:10, column:3, type:"control.slider", widthRatio:3, heightRatio:8, color:generateRandomColor(), label:"Slider 3x8", data:{}})
+addControl({line:10, column:6, type:"control.slider", widthRatio:3, heightRatio:8, color:generateRandomColor(), label:"Slider 3x8", data:{}})
+addControl({line:10, column:9, type:"control.slider", widthRatio:3, heightRatio:8, color:generateRandomColor(), label:"Slider 3x8", data:{}})
+
+addControl({line:18, column:0, type:"control.slider", widthRatio:4, heightRatio:6, color:generateRandomColor(), label:"Slider 4x6", data:{}})
+addControl({line:18, column:4, type:"control.slider", widthRatio:4, heightRatio:6, color:generateRandomColor(), label:"Slider 4x6", data:{}})
+addControl({line:18, column:8, type:"control.slider", widthRatio:4, heightRatio:6, color:generateRandomColor(), label:"Slider 4x6", data:{}})
+
+addControl({line:24, column:0, type:"control.slider", widthRatio:6, heightRatio:4, color:generateRandomColor(), label:"Slider 6x4", data:{}})
+addControl({line:24, column:6, type:"control.slider", widthRatio:6, heightRatio:4, color:generateRandomColor(), label:"Slider 6x4", data:{}})
+
+addControl({line:28, column:0, type:"control.button.mono", sizeRatio:4, color:generateRandomColor(), label:"Button 4x4", data:{icon:getRandomIcon()}})
+addControl({line:28, column:4, type:"control.button.mono", sizeRatio:4, color:generateRandomColor(), label:"Button 4x4", data:{icon:getRandomIcon()}})
+addControl({line:28, column:8, type:"control.button.mono", sizeRatio:4, color:generateRandomColor(), label:"Button 4x4", data:{icon:getRandomIcon()}})
+addControl({line:32, column:0, type:"control.knob", sizeRatio:6, color:generateRandomColor(), label:"Infinite knob 6x6", data:{isInfinite:true}})
+addControl({line:32, column:6, type:"control.knob", sizeRatio:6, color:generateRandomColor(), label:"Fixed knob 6x6", data:{isInfinite:false}})
 
 window.dispatchEvent(new Event('resize'))

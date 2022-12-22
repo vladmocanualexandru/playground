@@ -1,10 +1,10 @@
-controlFactory["control.button.mono"] = function(newControl, color, ...customData){
-    let icon = customData[0]
+controlFactory["control.button.mono"] = function(je, config){
+    let icon = config.data.icon
     
-    newControl.find(".icon").addClass("glyphicon-"+icon)
-    newControl.find(".icon").css("color", color)
+    je.find(".icon").addClass("glyphicon-"+icon)
+    je.find(".icon").css("color", config.color)
     
-    return newControl
+    return je
 }
 
 $(".control.button.mono").click(function(){

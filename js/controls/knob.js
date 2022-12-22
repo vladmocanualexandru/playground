@@ -1,15 +1,13 @@
-controlFactory["control.knob"] = function(newControl, color, ...customData){
-    let isInfinite = customData[0][0]
+controlFactory["control.knob"] = function(je, config){
+    je.attr("data-is-infinite", config.data.isInfinite)
 
-    newControl.attr("data-is-infinite", isInfinite)
+    je.find(".rotatingLayer").addClass(config.data.isInfinite?"infinite":"fixed")
 
-    newControl.find(".rotatingLayer").addClass(isInfinite?"infinite":"fixed")
-
-    newControl.find(".wheel").css("border-color", color)
-    newControl.find(".value").css("color", color)
-    newControl.find(".dot").css("background-color", color)
+    je.find(".wheel").css("border-color", config.color)
+    je.find(".value").css("color", config.color)
+    je.find(".dot").css("background-color", config.color)
     
-    return newControl
+    return je
 }
 
 function radians_to_degrees(radians)
@@ -22,8 +20,7 @@ let rotationEnabled = false
 let prevAngle = -1
 let targetWheel = null
 
-function inputStart(e) {
-    // console.log("start")
+function knob_inputStart(e) {
     prevAngle = 0
     targetWheel = $(e.currentTarget)
     rotationEnabled = true
@@ -34,7 +31,7 @@ function inputStart(e) {
     targetWheel.removeClass("unclicked")
 }
 
-function inputMove(e) {
+function knob_inputMove(e) {
     if (rotationEnabled) {
         let isInfinite = targetWheel.parent().attr("data-is-infinite") == "true"
 
@@ -91,7 +88,7 @@ function inputMove(e) {
     }
 }
 
-function inputEnd(e) {
+function knob_inputEnd(e) {
     // console.log("end")
     rotationEnabled = false
     $("body").removeClass("scrollLocked")
@@ -101,15 +98,14 @@ function inputEnd(e) {
     targetWheel.parent().find("img.loading").fadeIn(200)
 
     setTimeout(function(){
-        // jt.find("img.loading").fadeOut(200)
         $('.control.knob').find('img.loading').fadeOut(200)
         $('.control.knob').removeClass("loading")
     }, 1000)
 }
 
-$('.control.knob > .wheel').on({ 'touchstart' : inputStart});
-$('.control.knob > .wheel').on({ 'mousedown' : inputStart});
-$('.control.knob > .wheel').on({ 'touchmove' : inputMove});
-$('.control.knob > .wheel').on({ 'mousemove' : inputMove});
-$('.control.knob > .wheel').on({ 'touchend' : inputEnd});
-$('.control.knob > .wheel').on({ 'mouseup' : inputEnd});
+$('.control.knob > .wheel').on({ 'touchstart' : knob_inputStart});
+$('.control.knob > .wheel').on({ 'mousedown' : knob_inputStart});
+$('.control.knob > .wheel').on({ 'touchmove' : knob_inputMove});
+$('.control.knob > .wheel').on({ 'mousemove' : knob_inputMove});
+$('.control.knob > .wheel').on({ 'touchend' : knob_inputEnd});
+$('.control.knob > .wheel').on({ 'mouseup' : knob_inputEnd});
